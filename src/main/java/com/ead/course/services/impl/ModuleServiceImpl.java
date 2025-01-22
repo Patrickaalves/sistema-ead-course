@@ -1,5 +1,6 @@
 package com.ead.course.services.impl;
 
+import com.ead.course.models.ModuleModel;
 import com.ead.course.repositories.ModuleRepository;
 import com.ead.course.services.ModuleService;
 import org.springframework.stereotype.Service;
