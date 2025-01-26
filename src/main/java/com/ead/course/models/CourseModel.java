@@ -38,7 +38,7 @@ public class CourseModel implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(nullable = false)
-    private LocalDateTime lastUpdate;
+    private LocalDateTime lastUpdateDate;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -92,12 +92,12 @@ public class CourseModel implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
+    public LocalDateTime getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setLastUpdateDate(LocalDateTime lastUpdate) {
+        this.lastUpdateDate = lastUpdate;
     }
 
     public CourseStatus getCourseStatus() {
