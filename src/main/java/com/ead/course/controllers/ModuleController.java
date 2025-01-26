@@ -31,28 +31,28 @@ public class ModuleController {
     }
 
     @GetMapping("/courses/{courseId}/modules")
-    public ResponseEntity<List<ModuleModel>> getModules(@PathVariable("courseId") UUID courseId){
+    public ResponseEntity<List<ModuleModel>> getAllModules(@PathVariable(value = "courseId") UUID courseId){
         return ResponseEntity.status(HttpStatus.OK).body(moduleService.findAllModulesIntoCourse(courseId));
     }
 
     @GetMapping("/courses/{courseId}/modules/{moduleId}")
-    public ResponseEntity<ModuleModel> getOneModule(@PathVariable("courseId") UUID courseId,
-                                                    @PathVariable("moduleId") UUID moduleId){
+    public ResponseEntity<ModuleModel> getOneModule(@PathVariable(value = "courseId") UUID courseId,
+                                                    @PathVariable(value = "moduleId") UUID moduleId){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(moduleService.findModuleIntoCourse(courseId, moduleId).get());
     }
 
     @DeleteMapping("/courses/{courseId}/modules/{moduleId}")
-    public ResponseEntity<Object> delete(@PathVariable("courseId") UUID courseId,
-                                         @PathVariable("moduleId") UUID moduleId){
+    public ResponseEntity<Object> delete(@PathVariable(value = "courseId") UUID courseId,
+                                         @PathVariable(value = "moduleId") UUID moduleId){
         moduleService.delete(moduleService.findModuleIntoCourse(courseId, moduleId).get());
         return ResponseEntity.status(HttpStatus.OK).body("Module deleted successfully");
     }
 
     @PutMapping("/courses/{courseId}/modules/{moduleId}")
-    public ResponseEntity<Object> updateModule(@PathVariable("courseId") UUID courseId,
-                                               @PathVariable("moduleId") UUID moduleId,
+    public ResponseEntity<Object> updateModule(@PathVariable(value = "courseId") UUID courseId,
+                                               @PathVariable(value = "moduleId") UUID moduleId,
                                                @RequestBody @Valid ModuleRecordDto moduleRecordDto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
