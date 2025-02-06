@@ -1,5 +1,6 @@
 package com.ead.course.clients;
 
+import com.ead.course.dtos.CourseUserRecordDto;
 import com.ead.course.dtos.ResponsePageDto;
 import com.ead.course.dtos.UserRecordDto;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
@@ -39,6 +42,39 @@ public class AuthUserClient {
                     .body(new ParameterizedTypeReference<ResponsePageDto<UserRecordDto>>() {});
         } catch (RestClientException e) {
             logger.error("Error:  Request RestClient with cause: {} ", e.getMessage());
+            throw new RuntimeException("Error Request RestClient with cause: " + e);
+        }
+    }
+
+    public ResponseEntity<UserRecordDto> getOneUserById(UUID userId) {
+        String url = baseUrlAuthUser + "/users/" + userId;
+        logger.debug("Request URL: {}" + url);
+
+        return restClient.get()
+                .uri(url)
+                .retrieve()
+                .onStatus(status -> status.value() == 404, (request, response) -> {
+                    logger.error("Error:  User not found: {} ", userId);
+                    throw new RuntimeException("Error:  User not found.");
+                })
+                .toEntity(UserRecordDto.class);
+    }
+
+    public void postSubscriptionUserInCourse(UUID courseId, UUID userId) {
+        String url = baseUrlAuthUser + "/users/" + userId + "/courses/subscription";
+        logger.debug("Request URL: {} " + url);
+
+        try {
+            var courseUserRecordDto = new CourseUserRecordDto(courseId, userId);
+            restClient.post()
+                    .uri(url)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(courseUserRecordDto)
+                    .retrieve()
+                    .toBodilessEntity();
+
+        } catch (RestClientException e) {
+            logger.error("Error:  Request POST RestClient with cause: {} ", e.getMessage());
             throw new RuntimeException("Error Request RestClient with cause: " + e);
         }
     }
