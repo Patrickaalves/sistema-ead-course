@@ -61,13 +61,10 @@ public class CourseServiceImpl implements CourseService {
             courseUserRepository.deleteAll(courseUserModelList);
             deleteCourseUserInAuthUser = true;
         }
-
         courseRepository.delete(courseModel);
-
         if (deleteCourseUserInAuthUser) {
             authUserClient.deleteCourseUserInAuthUser(courseModel.getCourseId());
         }
-
     }
 
     @Override
