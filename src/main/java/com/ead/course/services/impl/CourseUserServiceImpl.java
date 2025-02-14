@@ -35,4 +35,15 @@ public class CourseUserServiceImpl implements CourseUserService {
 
         return courseUserModel;
     }
+
+    @Override
+    public boolean existByUserId(UUID userId) {
+        return courseUserRepository.existByUserId(userId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteAllByUserId(UUID userId) {
+        courseUserRepository.deleteAllByUserId(userId);
+    }
 }
