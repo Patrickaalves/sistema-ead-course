@@ -38,7 +38,7 @@ public class CourseUserServiceImpl implements CourseUserService {
 
     @Override
     public boolean existByUserId(UUID userId) {
-        return courseUserRepository.existByUserId(userId);
+        return courseUserRepository.existsByUserId(userId);
     }
 
     @Transactional
